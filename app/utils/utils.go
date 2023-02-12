@@ -10,15 +10,15 @@ import (
 	"github.com/Tabed23/article-category-crud/app/types"
 )
 
-func WriteOnFile(c *types.Category){
-	file, err := os.OpenFile("./data/categories.txt",os.O_APPEND|os.O_WRONLY, 0600)
+func WriteOnFile(c *types.Category) {
+	file, err := os.OpenFile("./data/categories.txt", os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
 		log.Printf("Error opening category.txt: %v", err)
 	}
 	_, _ = file.WriteString(fmt.Sprintf("%s,%s \n", c.CategoryID, c.Name))
 }
 
-func FindByIdFile(id string, c *types.Category)(*types.Category, error){
+func FindByIdFile(id string, c *types.Category) (*types.Category, error) {
 	file, err := os.Open("./data/categories.txt")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
@@ -26,12 +26,11 @@ func FindByIdFile(id string, c *types.Category)(*types.Category, error){
 	}
 	defer file.Close()
 
-
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 
 		if strings.Contains(scanner.Text(), id) {
-			found :=  scanner.Text()
+			found := scanner.Text()
 			ok := strings.Split(found, ",")
 			c.CategoryID = ok[0]
 			c.Name = ok[1]
@@ -43,8 +42,7 @@ func FindByIdFile(id string, c *types.Category)(*types.Category, error){
 	return nil, err
 }
 
-
-func DeleteByIdFromFile(id string)(bool,error){
+func DeleteByIdFromFile(id string) (bool, error) {
 
 	file, err := os.Open("./data/categories.txt")
 	if err != nil {

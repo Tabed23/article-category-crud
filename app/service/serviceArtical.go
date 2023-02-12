@@ -14,13 +14,11 @@ var (
 )
 
 type ArticleService struct {
-
 }
 
-
-func ( s *ArticleService) CreatArticle(article *types.Article) (error) {
+func (s *ArticleService) CreatArticle(article *types.Article) error {
 	art := &types.Article{
-		ArticleID: article.ArticleID,
+		ArticleID:   article.ArticleID,
 		Author:      article.Author,
 		Title:       article.Title,
 		Content:     article.Content,
@@ -29,7 +27,7 @@ func ( s *ArticleService) CreatArticle(article *types.Article) (error) {
 	}
 	ar = make(map[string]types.Article, 0)
 	ar[art.ArticleID] = *art
-	tx := db.Table("articles").Exec("INSERT INTO articles (article_id, title, content, category, author, published_at) VALUES ($1, $2, $3,$4,$5,$6) RETURNING id",art.ArticleID, &art.Title, &art.Content, &art.Category, &art.Author, &art.PublishedAt)
+	tx := db.Table("articles").Exec("INSERT INTO articles (article_id, title, content, category, author, published_at) VALUES ($1, $2, $3,$4,$5,$6) RETURNING id", art.ArticleID, &art.Title, &art.Content, &art.Category, &art.Author, &art.PublishedAt)
 
 	return tx.Error
 }
@@ -40,7 +38,7 @@ func (s *ArticleService) FindById(id string) (*types.Article, error) {
 
 	if !ok {
 		return nil, errors.New("no such article")
-	}else if ok {
+	} else if ok {
 		found := ar[id]
 		return &found, nil
 	}
@@ -49,7 +47,7 @@ func (s *ArticleService) FindById(id string) (*types.Article, error) {
 	return &art, err
 }
 
-func ( s* ArticleService) DeleteArticle(id string) (bool, error) {
+func (s *ArticleService) DeleteArticle(id string) (bool, error) {
 	_, ok := ar[id]
 	if !ok {
 		return false, errors.New("no such article")

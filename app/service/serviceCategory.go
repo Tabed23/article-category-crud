@@ -1,7 +1,6 @@
 package service
 
 import (
-
 	"github.com/Tabed23/article-category-crud/app/types"
 	u "github.com/Tabed23/article-category-crud/app/utils"
 )
@@ -12,7 +11,7 @@ type CategoryService struct {
 func (CategoryService) CreatCategory(cat *types.Category) (string, error) {
 	c := &types.Category{
 		CategoryID: cat.CategoryID,
-		Name: cat.Name,
+		Name:       cat.Name,
 	}
 	u.WriteOnFile(c)
 
@@ -24,7 +23,7 @@ func (CategoryService) CreatCategory(cat *types.Category) (string, error) {
 func (CategoryService) CategoryFindById(id string) (*types.Category, error) {
 	c := &types.Category{}
 	c, err := u.FindByIdFile(id, c)
-	if  err != nil {
+	if err != nil {
 		return nil, err
 	}
 
@@ -35,7 +34,7 @@ func (CategoryService) CategoryFindById(id string) (*types.Category, error) {
 func (CategoryService) DeleteCategory(id string) (bool, error) {
 	c := types.Category{}
 	ok, err := u.DeleteByIdFromFile(id)
-	if err != nil  && !ok {
+	if err != nil && !ok {
 		return false, err
 	}
 

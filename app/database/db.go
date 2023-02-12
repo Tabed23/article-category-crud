@@ -22,5 +22,4 @@ func ConnectDB() *gorm.DB {
 	return db
 }
 
-
 var DB *gorm.DB = ConnectDB()

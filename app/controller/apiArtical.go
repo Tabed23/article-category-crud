@@ -9,10 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 type ArticleServer struct {
 	srv service.ArticleService
-
 }
 
 func (a *ArticleServer) CreatArticle(c *gin.Context) {
@@ -44,7 +42,6 @@ func (a *ArticleServer) CreatArticle(c *gin.Context) {
 }
 func (a *ArticleServer) GetArticle(c *gin.Context) {
 	artId := c.Param("id")
-
 
 	resp, err := a.srv.FindById(artId)
 	if err != nil {
@@ -105,7 +102,6 @@ func (a *ArticleServer) UpdateArticle(c *gin.Context) {
 
 func (a *ArticleServer) DeleteArticle(c *gin.Context) {
 	artId := c.Param("id")
-
 
 	ok, _ := a.srv.DeleteArticle(artId)
 	if !ok {

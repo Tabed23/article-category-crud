@@ -8,7 +8,7 @@ import (
 
 type Article struct {
 	ID          uint      `gorm:"primary" json:"id"`
-	ArticleID 	string 	  `json:"article_id"`
+	ArticleID   string    `json:"article_id"`
 	Title       string    `json:"title"`
 	Content     string    `json:"content"`
 	Category    string    `json:"category"`
@@ -16,9 +16,9 @@ type Article struct {
 	PublishedAt time.Time `json:"published_at"`
 }
 type Category struct {
-	ID   uint   `gorm:"primary" json:"id"`
+	ID         uint   `gorm:"primary" json:"id"`
 	CategoryID string `json:"category_id"`
-	Name string `json:"name"`
+	Name       string `json:"name"`
 }
 
 func Migration(db *gorm.DB) error {

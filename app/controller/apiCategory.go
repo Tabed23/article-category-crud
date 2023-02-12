@@ -2,10 +2,10 @@ package controller
 
 import (
 	"fmt"
-	"net/http"
 	"github.com/Tabed23/article-category-crud/app/service"
 	"github.com/Tabed23/article-category-crud/app/types"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type CategoryServer struct {
