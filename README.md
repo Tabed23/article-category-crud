@@ -1,4 +1,4 @@
-# Golang Gin With PostgreSQL and Redis
+# Golang Gin With PostgreSQL
 
 ## How to Run
 ```
