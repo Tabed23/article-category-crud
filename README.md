@@ -1,8 +1,8 @@
 # Golang Gin With PostgreSQL and Redis
 
 ## How to Run
-
-1. sudo docker run -d --rm -v ${PWD}/postges:/var/lib/postgresql/data -e POSTGRES_DB=dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 postgres:10.4
+```
+1. sudo docker compose up -d
 2. endpoints
 ```
 v1 := r.Group("/v1/article")

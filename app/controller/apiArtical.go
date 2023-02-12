@@ -3,7 +3,6 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/Tabed23/article-category-crud/app/service"
 	"github.com/Tabed23/article-category-crud/app/types"
@@ -13,7 +12,7 @@ import (
 
 type ArticleServer struct {
 	srv service.ArticleService
-	ar map[string]types.Article
+
 }
 
 func (a *ArticleServer) CreatArticle(c *gin.Context) {
@@ -26,7 +25,8 @@ func (a *ArticleServer) CreatArticle(c *gin.Context) {
 		})
 		return
 	}
-	resp, err := a.srv.CreatArticle(&art)
+
+	err := a.srv.CreatArticle(&art)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -36,23 +36,15 @@ func (a *ArticleServer) CreatArticle(c *gin.Context) {
 		return
 	}
 
-	id := strconv.Itoa(int(resp))
-	a.ar[id] = art
-
 	c.JSON(http.StatusCreated, gin.H{
 		"status":  http.StatusCreated,
-		"message": fmt.Sprintf("article created successfully with id %d", resp),
+		"message": fmt.Sprintf("article created successfully with id %s", art.ArticleID),
 	})
 
 }
 func (a *ArticleServer) GetArticle(c *gin.Context) {
 	artId := c.Param("id")
-	_, ok := a.ar[artId]
 
-	if !ok {
-		c.JSON(400, gin.H{"error": "Article not found"})
-		return
-	}
 
 	resp, err := a.srv.FindById(artId)
 	if err != nil {
@@ -86,11 +78,6 @@ func (a *ArticleServer) GetArticles(c *gin.Context) {
 
 func (a *ArticleServer) UpdateArticle(c *gin.Context) {
 	artId := c.Param("id")
-	_, ok := a.ar[artId]
-		if !ok {
-			c.JSON(400, gin.H{"error": "Article not found"})
-			return
-		}
 
 	art := types.Article{}
 	if err := c.ShouldBindJSON(&art); err != nil {
@@ -100,7 +87,6 @@ func (a *ArticleServer) UpdateArticle(c *gin.Context) {
 		})
 		return
 	}
-	a.ar[artId] = art
 	resp, err := a.srv.UpdateArticle(artId, art)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -120,14 +106,8 @@ func (a *ArticleServer) UpdateArticle(c *gin.Context) {
 func (a *ArticleServer) DeleteArticle(c *gin.Context) {
 	artId := c.Param("id")
 
-	_, ok := a.ar[artId]
-		if !ok {
-			c.JSON(400, gin.H{"error": "Article not found"})
-			return
-		}
 
-	delete(a.ar, artId)
-	ok, _ = a.srv.DeleteArticle(artId)
+	ok, _ := a.srv.DeleteArticle(artId)
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,

@@ -2,12 +2,9 @@ package controller
 
 import (
 	"fmt"
-	"log"
 	"net/http"
-	"os"
-
-	"github.com/Tabed23/artical-category-crud/app/service"
-	"github.com/Tabed23/artical-category-crud/app/types"
+	"github.com/Tabed23/article-category-crud/app/service"
+	"github.com/Tabed23/article-category-crud/app/types"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,15 +21,6 @@ func (cat *CategoryServer) CreatCategory(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Print("opening json file")
-	f, err := os.OpenFile("category.txt",os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Printf("cannot make the file %v",err)
-	}
-	defer f.Close()
-	f.WriteString(ca.Name)
-	fmt.Println("write of file")
-
 	resp, err := cat.srv.CreatCategory(&ca)
 
 	if err != nil {
@@ -67,6 +55,7 @@ func (cat *CategoryServer) GetCategory(c *gin.Context) {
 }
 
 func (cat *CategoryServer) GetCategories(c *gin.Context) {
+
 	ca, err := cat.srv.GetCategory()
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{

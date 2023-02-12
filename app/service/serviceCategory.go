@@ -2,8 +2,8 @@ package service
 
 import (
 
-
 	"github.com/Tabed23/article-category-crud/app/types"
+	u "github.com/Tabed23/article-category-crud/app/utils"
 )
 
 type CategoryService struct {
@@ -11,9 +11,10 @@ type CategoryService struct {
 
 func (CategoryService) CreatCategory(cat *types.Category) (string, error) {
 	c := &types.Category{
+		CategoryID: cat.CategoryID,
 		Name: cat.Name,
 	}
-
+	u.WriteOnFile(c)
 
 	err := db.Table("categories").Create(&c).Error
 
@@ -21,14 +22,24 @@ func (CategoryService) CreatCategory(cat *types.Category) (string, error) {
 }
 
 func (CategoryService) CategoryFindById(id string) (*types.Category, error) {
-	c := types.Category{}
-	err := db.Table("categories").Where("id = ?", id).First(&c).Error
-	return &c, err
+	c := &types.Category{}
+	c, err := u.FindByIdFile(id, c)
+	if  err != nil {
+		return nil, err
+	}
+
+	err = db.Table("categories").Where("category_id = ?", id).First(c).Error
+	return c, err
 }
 
 func (CategoryService) DeleteCategory(id string) (bool, error) {
 	c := types.Category{}
-	err := db.Table("categories").Where("id = ?", id).First(&c).Error
+	ok, err := u.DeleteByIdFromFile(id)
+	if err != nil  && !ok {
+		return false, err
+	}
+
+	err = db.Table("categories").Where("category_id = ?", id).First(&c).Error
 	if err != nil {
 		return false, err
 	}
@@ -41,7 +52,7 @@ func (CategoryService) DeleteCategory(id string) (bool, error) {
 
 func (CategoryService) UpdateCategory(id string, catUpdate types.Category) (*types.Category, error) {
 	c := types.Category{}
-	err := db.Table("categories").Where("id = ?", id).First(&c).Error
+	err := db.Table("categories").Where("category_id = ?", id).First(&c).Error
 	if err != nil {
 		return nil, err
 	}

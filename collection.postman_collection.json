@@ -43,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"How to Build a Go Web Application\",\n    \"author\": \"John Doe\",\n    \"description\": \"A comprehensive guide to building a Go web application from scratch.\",\n    \"content\": \"Go is a powerful and flexible language that is well-suited for building web applications...\",\n    \"category\": [\"Go\", \"Web Development\"]\n}",
+					"raw": "{\n    \"category_id\": \"1\",\n    \"name\": \"a\" \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -51,16 +51,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/article/articles",
+					"raw": "http://localhost:8080/v2/category/category",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"v1",
-						"article",
-						"articles"
+						"v2",
+						"category",
+						"category"
 					]
 				}
 			},
