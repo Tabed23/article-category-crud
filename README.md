@@ -5,6 +5,8 @@
 1. sudo docker compose up -d
 2. endpoints
 ```
+# Endpoints for Postman
+```
 v1 := r.Group("/v1/article")
 	{
 		v1.GET("/articles", art.GetArticles)
